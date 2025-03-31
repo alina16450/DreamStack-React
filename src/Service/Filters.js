@@ -1,5 +1,7 @@
 import { useMemo, useState } from 'react';
 
+
+//handles all of the filter and sort logic. Start by initializing hooks for each filter, and for sort.
 export const useBucketItemFilters = (initialItems) => {
   const [items, setItems] = useState(initialItems);
   const [categoryFilter, setCategoryFilter] = useState('');
@@ -9,6 +11,8 @@ export const useBucketItemFilters = (initialItems) => {
     ascending: true
   });
 
+  //if items, categoryFilter, visitedFilter, or sortConfig are triggered then our useMemo is triggered to handle the sort/filter logic based on the category/hook that is given.
+  //we use useMemo so that it only runs when it is triggered, and so that it memoizes the results for more effiency. 
   const filteredAndSortedItems = useMemo(() => {
     let result = [...items];
     
@@ -34,7 +38,8 @@ export const useBucketItemFilters = (initialItems) => {
       }
     });
   }, [items, categoryFilter, visitedFilter, sortConfig]);
-  
+
+  //the key (class attribute) being passed gets used as the sorting criteria, and if it is clicked a second time the direction changes.
   const requestSort = (key) => {
     setSortConfig(prev => ({
       key,
@@ -42,6 +47,7 @@ export const useBucketItemFilters = (initialItems) => {
     }));
   };
 
+  //returns our hooks so they can be set, and once one is changed it triggers filteredAndSortedItems
   return {
     items: filteredAndSortedItems,
     categoryFilter,
