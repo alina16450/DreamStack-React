@@ -6,6 +6,8 @@ import Edit from './Service/Edit';
 import NoPage from './Service/NoPage';
 import { BucketProvider } from './Repository/BucketContext';
 
+
+//initializes a BucketProvider item from BucketContext, and passes our Routes as children. Our routes initialize our different pages, and their names.
 function App() {
   return (
     <BucketProvider>
