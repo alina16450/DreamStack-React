@@ -1,7 +1,7 @@
 import BucketItems from "../Domain/bucketItem";
 
 export default class BucketItemsRepository {
-    
+    //The repository class for our bucketItem class, which gets initialized in BucketContext.js and then passed to the pages.
     constructor() {
       this.items = new BucketItems();
     }
