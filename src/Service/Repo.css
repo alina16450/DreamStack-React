@@ -371,3 +371,14 @@ tr {
 .status-text {
   margin-left: 5px;
 }
+
+.noPage {
+  color: #B1B1B1;
+  font-family: 'Koh Santepheap';
+  text-align: center;
+}
+
+.no-page {
+  font-size: 150px;
+  margin-bottom: 10px;
+}
