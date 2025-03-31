@@ -3,7 +3,9 @@ import { useNavigate, useLocation  } from 'react-router-dom';
 import { useBucket } from '../Repository/BucketContext';
 import './Repo.css'
 
+//all of the logic that handles adding a new class instance. All put in its own page.
 export default function Add() {
+  //each class attribute has its own useState, except visited which has a default value. Also imports the bucketRepo for the shared repository.
   const bucketRepo = useBucket();
   const [name, setName] = useState('');
   const [country, setCountry] = useState('');
@@ -12,11 +14,14 @@ export default function Add() {
   const [description, setDescription] = useState('');
   const [error, setError] = useState('');
 
+  //handles the logic for when the add button is clicked.
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    //custom way to validate input, since most of the attributes(country, city) should not have any numbers or special characters. 
     const textOnlyPattern = /^[A-Za-z\s]+$/;
-    
+
+    //ensure none of the fields are left empty.
     if (!name || !country || !city || !category || !description) {
       setError('All fields are required');
       return;
@@ -36,6 +41,7 @@ export default function Add() {
       return;
     }
 
+    //items get added to the Repository, and the labels (which have the values of our useState hooks) are cleared. 
     try {
       bucketRepo.addItem(name, country, city, category, description);
       setName('');
@@ -81,10 +87,11 @@ export default function Add() {
 
       <h2 className="instructionAdd">Add bucket list item</h2>
 
+      //initialize the input fields, and have each one linked to its own useState hook.
       <div className="add-form">
   <form className="form-grid" onSubmit={handleSubmit}>
     {error && <div className="error-message">{error}</div>}
-    
+            
     <div className="form-group">
       <label>Location name:</label>
       <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
@@ -117,7 +124,8 @@ export default function Add() {
       <label>Description:</label>
       <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} required />
     </div>
-    
+
+    //create the button which will be used for submitting.
     <button type="submit" className="submit-btn">Add +</button>
   </form>
 </div>
