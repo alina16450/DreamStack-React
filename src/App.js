@@ -1,24 +1,23 @@
-import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Home from './Service/Home';
+import Add from './Service/Add';
+import Edit from './Service/Edit';
+import NoPage from './Service/NoPage';
+import { BucketProvider } from './Repository/BucketContext';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BucketProvider>
+      <Router>
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/add' element={<Add />} />
+          <Route path='/edit' element={<Edit />} />
+          <Route path='*' element={<NoPage />} />
+        </Routes>
+      </Router>
+    </BucketProvider>
   );
 }
 
