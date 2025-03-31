@@ -4,8 +4,11 @@ import { useBucket } from '../Repository/BucketContext';
 import { useBucketItemFilters } from './Filters';
 import './Repo.css';
 
+//the home page which displays a table, allows for filtering, sorting, and modifying the visited attribute.
 export default function Home() {
+  //call the repository from our custom hook.
   const bucketRepo = useBucket();
+  //our hook components needed for filtering and sorting.
   const {
     items: filteredItems,
     categoryFilter,
@@ -17,10 +20,12 @@ export default function Home() {
     setItems
   } = useBucketItemFilters([]);
 
+  //set up a useEffect that updates the table any time either bucketRepo or setItems are triggered.
   useEffect(() => {
     setItems(bucketRepo.getItems());
   }, [bucketRepo, setItems]);
 
+  //calls on the updateVisited function from our repository which changes the visited attribute any time it is called.
   const handleVisitedChange = (itemId) => {
     const updatedItem = bucketRepo.updateVisited(itemId);
     setItems(prevItems => 
@@ -30,6 +35,7 @@ export default function Home() {
     );
   };
 
+  //handles the count of our bucketItem which is used to display the statistis of the table. How many total instances, how many visited, which is the most popular category.
   const getStatistics = () => {
     if (filteredItems.length === 0) return {};
     
@@ -53,6 +59,8 @@ export default function Home() {
 
   const stats = getStatistics();
 
+  //has as input each item that gets entered into the table, and checks if it has the mostCommonCategory. If it does, it attaches a custom tag to it. 
+  //this custom tag is used in Repo.css to highlight that table instance. 
   const getHighlightClass = (item) => {
     if (item.category === stats.mostCommonCategory) {
       return 'highlight-common';
@@ -68,6 +76,7 @@ export default function Home() {
       <div className="page-container">
         <header className="header">
           <h1>DreamStack</h1>
+          //using bootstrap icons for the navigation buttons
           <nav className='nav'>
             <button 
               className={`b1 ${location.pathname === '/' ? 'active-nav' : ''}`}
@@ -91,6 +100,7 @@ export default function Home() {
         </header>
         <h5 className="tagline">Save it. Plan it. Live it.</h5>
 
+        //create the table that displays the calculated statistics.
         <div className="stats-summary">
           <div className="stat-card">
             <h3>Total Items</h3>
@@ -110,6 +120,7 @@ export default function Home() {
           </div>
         </div>
 
+        //when the filter dropdown is selected, it triggers a setCategoryFilter which is handled in Filters.js . Takes the value from the dropdown and passes it to the hook.
         <div className="filter-dropdowns">
           <select 
             value={categoryFilter} 
@@ -125,6 +136,7 @@ export default function Home() {
             <option value="Other">Other</option>
           </select>
 
+          //
           <select 
             value={visitedFilter ?? ''} 
             onChange={(e) => setVisitedFilter(e.target.value === '' ? null : e.target.value === 'true')}
